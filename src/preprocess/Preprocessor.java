@@ -1,14 +1,10 @@
 package preprocess;
-import weka.core.*;
 import weka.filters.Filter;
 import weka.filters.MultiFilter;
-import weka.filters.supervised.instance.Resample;
 import weka.filters.unsupervised.attribute.Normalize;
 import weka.filters.unsupervised.attribute.Remove;
 import weka.filters.unsupervised.attribute.RemoveByName;
 import weka.filters.unsupervised.attribute.ReplaceMissingValues;
-import weka.filters.unsupervised.attribute.RemoveByName;
-import weka.filters.supervised.instance.SpreadSubsample;
 public class Preprocessor {
 
     public static MultiFilter createPreprocessor() {
@@ -26,20 +22,14 @@ public class Preprocessor {
             DateTimeFilter.addPair(conf[0], conf[1], conf[2]);
         }
         
-
-        // To keep "approved_purchase", "carried_purchase", and "estimated_error"idth
         String regex = "(estimated_error|delivered_purchase|estimated_error_mask|order_status|carried_purchase|shipping_limit_purchase|seller_zip_code_prefix|freight_value|product_width_cm|product_height_cm|product_length_cm|product_weight_cm|price|approved_purchase|review_score)";
-
         RemoveByName removeByNameFilter = new RemoveByName();
         removeByNameFilter.setExpression(regex);
-        removeByNameFilter.setInvertSelection(true); // Keep attributes that match
+        removeByNameFilter.setInvertSelection(true);
 
         NegativeMasker negativeMasker = new NegativeMasker();
         negativeMasker.setAttributeName("estimated_error");
-        String usingATtr = "29,32,35,1,33,30,19,36";
-        Remove removeFilter = new Remove();
-        removeFilter.setAttributeIndices(usingATtr);
-        removeFilter.setInvertSelection(true);
+        
         ReplaceMissingValues missingFiller = new ReplaceMissingValues();
 
 
@@ -50,7 +40,7 @@ public class Preprocessor {
         pipeline.setFilters(new Filter[] {
             DateTimeFilter,
             negativeMasker,
-            removeFilter,
+            removeByNameFilter,
             missingFiller,
             normalize
         });
