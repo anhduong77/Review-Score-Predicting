@@ -4,7 +4,6 @@ package preprocess;
 
 import weka.core.*;
 import java.util.*;
-import weka.filters.Filter;
 import weka.filters.SimpleBatchFilter;
 import weka.filters.UnsupervisedFilter;
 
