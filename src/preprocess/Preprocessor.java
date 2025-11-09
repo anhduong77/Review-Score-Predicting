@@ -2,9 +2,10 @@ package preprocess;
 import weka.filters.Filter;
 import weka.filters.MultiFilter;
 import weka.filters.unsupervised.attribute.Normalize;
-import weka.filters.unsupervised.attribute.Remove;
+import weka.filters.unsupervised.instance.RemovePercentage;
 import weka.filters.unsupervised.attribute.RemoveByName;
 import weka.filters.unsupervised.attribute.ReplaceMissingValues;
+import preprocess.PercentileClip;
 public class Preprocessor {
 
     public static MultiFilter createPreprocessor() {
@@ -27,6 +28,7 @@ public class Preprocessor {
         removeByNameFilter.setExpression(regex);
         removeByNameFilter.setInvertSelection(true);
 
+
         NegativeMasker negativeMasker = new NegativeMasker();
         negativeMasker.setAttributeName("estimated_error");
         
@@ -35,12 +37,17 @@ public class Preprocessor {
 
         Normalize normalize = new Normalize();
         normalize.setIgnoreClass(true);  
+
+        PercentileClip percentileClip = new PercentileClip();
+        percentileClip.setAttributes("approved_purchase,carried_purchase,delivered_purchase");
+       
       
 
         pipeline.setFilters(new Filter[] {
             DateTimeFilter,
             negativeMasker,
             removeByNameFilter,
+            percentileClip,
             missingFiller,
             normalize
         });
