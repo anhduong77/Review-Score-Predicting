@@ -9,12 +9,9 @@ public class DateTimeSubtract extends SimpleBatchFilter implements UnsupervisedF
 
     private final List<String[]> pairs = new ArrayList<>();
 
-    /** Add a pair of start and end attributes with a name for the new difference column */
     public void addPair(String startAttr, String endAttr, String newAttrName) {
         pairs.add(new String[]{startAttr, endAttr, newAttrName});
     }
-
-    /** Define the output structure (adds all new attributes before the class index) */
     @Override
     protected Instances determineOutputFormat(Instances inputFormat) {
         Instances newFormat = new Instances(inputFormat, 0);
@@ -25,13 +22,13 @@ public class DateTimeSubtract extends SimpleBatchFilter implements UnsupervisedF
         for (String[] p : pairs) {
             Attribute diffAttr = new Attribute(p[2]);
             newFormat.insertAttributeAt(diffAttr, insertPos);
-            insertPos++; // keep attributes in order
+            insertPos++; 
         }
 
         return newFormat;
     }
 
-    /** Apply the transformation logic */
+
     @Override
     protected Instances process(Instances data) throws Exception {
         Instances output = new Instances(determineOutputFormat(data), data.numInstances());
@@ -42,17 +39,7 @@ public class DateTimeSubtract extends SimpleBatchFilter implements UnsupervisedF
             double[] newVals = Arrays.copyOf(oldInst.toDoubleArray(), output.numAttributes());
 
             for (String[] p : pairs) {
-                // Attribute start = data.attribute(p[0]);
-                // Attribute end = data.attribute(p[1]);
-                // Attribute diffAttr = output.attribute(p[2]);
-                // int newIndex = diffAttr.index();
-
-                // if (oldInst.isMissing(start) || oldInst.isMissing(end)) {
-                //     newVals[newIndex] = Utils.missingValue();
-                // } else {
-                //     double diffDays = (oldInst.value(end) - oldInst.value(start)) / (1000 * 60 * 60 * 24);
-                //     newVals[newIndex] = diffDays;
-                // }
+     
                 Attribute start = data.attribute(p[0]);
                 Attribute end = data.attribute(p[1]);
                 Attribute diffAttr = getOutputFormat().attribute(p[2]);
@@ -73,7 +60,6 @@ public class DateTimeSubtract extends SimpleBatchFilter implements UnsupervisedF
         return output;
     }
 
-    /** This ensures it can be used in cross-validation and FilteredClassifier */
     @Override
     protected boolean hasImmediateOutputFormat() {
         return true;

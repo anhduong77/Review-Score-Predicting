@@ -93,7 +93,7 @@ public class NegativeMasker extends SimpleBatchFilter implements UnsupervisedFil
     }
     @Override 
     public String globalInfo() {
-        return "A filter that subtracts date/time attributes to create new numeric attributes representing the difference in days.";
+        return "A filter that binarize value by a specific threshold.";
     }
 
 }
