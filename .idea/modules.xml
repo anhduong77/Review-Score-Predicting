@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Review-Score-Predicting.iml" filepath="$PROJECT_DIR$/Review-Score-Predicting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Review_Predicting_Scores.iml" filepath="$PROJECT_DIR$/Review_Predicting_Scores.iml" />
     </modules>
   </component>
 </project>
